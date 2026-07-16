@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>莫沃斯「记路家」S2期・梦回民国上集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&family=Noto+Serif+SC:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700;800;900&family=Ma+Shan+Zheng&display=swap" rel="stylesheet" />
+<style>
+/* ── Reset & Variables ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #F3EDE0; --bg2: #FBF7EE; --text: #1C352B; --accent: #A63A2B;
+  --gold: #B8860B; --muted: #6D756A; --border: #CFC2A7; --dark: #1C352B; --card: #FBF7EE;
+  --sans: 'Noto Serif SC', Georgia, serif;
+  --serif: 'Noto Serif SC', Georgia, serif;
+  --brush: 'Ma Shan Zheng', 'Noto Serif SC', cursive;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text); font-family: var(--sans);
+  font-weight: 400; line-height: 1.6; font-size: 16px;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+
+/* ── Animations ───────────────────────────────────────────────────── */
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left { opacity: 0; transform: translateX(-20px); transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1); }
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ── Hero (full-bleed poster) ──────────────────────────────────────── */
+.hero { position: relative; overflow: hidden; }
+.hero::after { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0.2; background-image: repeating-radial-gradient(circle at 20% 35%, rgba(255,255,255,0.48) 0 0.7px, transparent 0.7px 3px); mix-blend-mode: soft-light; backdrop-filter: blur(0.6px); }
+.hero-bg { position: absolute; inset: 0; }
+.hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; filter: none; }
+.hero-top { position: relative; z-index: 10; min-height: 100svh; }
+.hero-statement { position: relative; z-index: 10; padding: 80px 0 100px; }
+.hero-bg .overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(28,53,43,0.52) 0%, rgba(28,53,43,0.12) 45%, rgba(28,53,43,0.46) 100%); }
+.hero nav { position: absolute; top: 0; left: 0; right: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 26px max(3vw, 48px); border-bottom: 1px solid rgba(243,237,224,0.34); }
+.hero nav .brand { color: #F3EDE0; font-weight: 700; font-size: 15px; letter-spacing: 0.14em; font-family: var(--serif); }
+.hero nav .menu { display: flex; gap: clamp(20px, 3.5vw, 48px); }
+.hero nav .menu a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 0.08em; transition: color 0.2s; }
+.hero nav .menu a:hover { color: var(--gold); }
+.hero nav .burger { display: flex; flex-direction: column; gap: 5px; width: 26px; }
+.hero nav .burger span { height: 2px; background: white; }
+.hero-center { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); z-index: 10; width: min(96vw, 1800px); }
+.hl { text-align: center; }
+.hl .l1, .hl .l2 { font-weight: 900; color: #F3EDE0; font-family: var(--serif); font-size: clamp(48px, 5.8vw, 118px); line-height: 1.14; letter-spacing: 0.04em; white-space: nowrap; text-shadow: 0 2px 28px rgba(0,0,0,0.35); }
+.hl .l2 { color: #D2A142; }
+.hl .mini { display: inline-block; margin-top: 32px; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.92); text-decoration: none; letter-spacing: 0.16em; transition: color 0.2s; }
+.hl .mini:hover { color: var(--accent); }
+.hero-year { position: absolute; left: max(3vw, 48px); top: 50%; transform: translateY(-50%); z-index: 10; color: white; }
+.hero-year .y { font-size: clamp(28px, 3vw, 46px); font-weight: 800; line-height: 1; letter-spacing: 0.02em; }
+.hero-year .d { font-size: 11px; letter-spacing: 0.2em; color: rgba(255,255,255,0.7); margin-top: 8px; }
+.hero-scroll { position: absolute; right: max(3vw, 48px); top: 50%; transform: translateY(-50%); z-index: 10; color: rgba(255,255,255,0.85); font-size: 13px; letter-spacing: 0.06em; }
+.hero-para { position: absolute; bottom: 44px; left: clamp(48px, 23vw, 440px); z-index: 10; max-width: 340px; }
+.hero-para .find { display: flex; align-items: center; gap: 10px; color: white; font-size: 15px; font-weight: 500; margin-bottom: 10px; }
+.typing-word { font-weight: 700; color: white; display: inline-flex; align-items: center; height: 1.6em; }
+.typing-cursor { display: inline-block; width: 2px; height: 0.85em; background: white; margin-left: 2px; animation: blink 1s ease-in-out infinite; flex-shrink: 0; }
+.hero-para p { font-size: 12px; color: rgba(255,255,255,0.75); line-height: 1.85; letter-spacing: 0.05em; }
+.hero-collab { position: absolute; bottom: 44px; right: max(3vw, 48px); z-index: 10; color: rgba(255,255,255,0.75); font-size: 11px; letter-spacing: 0.12em; text-align: right; }
+
+/* ── Ticker ────────────────────────────────────────────────────────── */
+.ticker { background: var(--dark); overflow: hidden; padding: 14px 0; position: relative; z-index: 10; border-top: 1px solid rgba(184,134,11,0.55); border-bottom: 1px solid rgba(184,134,11,0.55); }
+.ticker-track { display: flex; width: max-content; animation: marquee 22s linear infinite; }
+.ticker-track span { color: white; font-size: 12px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; white-space: nowrap; padding-right: 40px; }
+.ticker-track span i { font-style: normal; color: var(--accent); padding-right: 40px; }
+
+/* ── Benefits ──────────────────────────────────────────────────────── */
+.benefits { background: var(--bg); padding: 100px 0 120px; }
+.pad { padding: 0 max(3vw, 48px); }
+.section-label { display: flex; align-items: center; gap: 12px; font-size: 11px; letter-spacing: 0.26em; color: var(--muted); text-transform: uppercase; margin-bottom: 32px; }
+.section-label::before { content: ''; display: block; width: 20px; height: 2px; background: var(--accent); }
+
+/* Statement block (editorial, text-only) */
+.statement { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: end; margin-bottom: 64px; }
+.statement h2 { font-size: clamp(38px, 5.6vw, 88px); font-weight: 900; line-height: 1.12; letter-spacing: -0.03em; font-family: var(--serif); color: #F3EDE0; }
+.statement h2 .row { display: block; margin-bottom: 0.3em; }
+.statement h2 .dim { color: rgba(255,255,255,0.4); }
+.statement h2 .hl { color: var(--accent); }
+.statement .en-group { display: block; margin-top: 12px; font-family: var(--serif); font-size: clamp(16px, 1.8vw, 24px); font-weight: 400; letter-spacing: 0.04em; color: rgba(243,237,224,0.56); line-height: 1.8; }
+.statement .en-group .hl { color: var(--accent); }
+.statement p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 2; letter-spacing: 0.01em; padding-bottom: 10px; border-bottom: 2px solid rgba(255,255,255,0.3); }
+
+/* Photo strip */
+.photo-strip { position: relative; height: clamp(300px, 44vw, 560px); overflow: hidden; margin-bottom: 100px; }
+.photo-strip img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; filter: sepia(0.52) saturate(0.62) contrast(0.9); }
+.photo-strip .grad { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,10,0.5), transparent 55%); }
+.photo-strip .loc { position: absolute; bottom: 28px; right: 40px; color: rgba(255,255,255,0.6); font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; }
+.photo-strip .num { position: absolute; bottom: 20px; left: 40px; font-size: clamp(48px, 7vw, 96px); font-weight: 900; color: white; line-height: 1; letter-spacing: -0.04em; }
+.photo-strip .num small { font-size: 0.32em; font-weight: 700; letter-spacing: 0.2em; color: rgba(255,255,255,0.65); vertical-align: super; }
+
+/* Featured bento grid */
+.featured-grid { display: grid; grid-template-columns: 1.35fr 1fr; grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 110px; }
+.featured-card { position: relative; overflow: hidden; cursor: default; min-height: 190px; background: #111; }
+.featured-card.main { grid-row: 1 / 4; min-height: 620px; }
+.featured-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: none; transition: transform 0.6s ease; }
+.featured-card:hover img { transform: scale(1.04); }
+.featured-card .img-grad { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.2) 0%, transparent 46%); }
+.featured-card .idx { position: absolute; top: 18px; left: 22px; font-size: 12px; font-weight: 800; letter-spacing: 0.2em; color: white; background: rgba(10,10,10,0.62); padding: 6px 12px; }
+.featured-card.main .idx { background: var(--accent); }
+.featured-card .img-text { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 24px 22px; background: rgba(10,10,10,0.68); backdrop-filter: blur(8px); border-top: 1px solid rgba(255,255,255,0.18); }
+.featured-card .img-text h4 { font-size: 16px; font-weight: 700; color: white; line-height: 1.4; margin-bottom: 6px; font-family: var(--serif); }
+.featured-card.main .img-text h4 { font-size: clamp(18px, 1.8vw, 24px); }
+.featured-card .img-text p { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.65; max-width: 480px; }
+.featured-card .img-text .note { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 6px; line-height: 1.6; }
+
+/* Section label row */
+.label-row { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid var(--dark); padding-bottom: 20px; margin-bottom: 0; }
+.label-row h2 { font-size: clamp(32px, 5vw, 56px); font-weight: 900; color: var(--dark); letter-spacing: -0.02em; line-height: 1; font-family: var(--sans); }
+.label-row p { font-size: 13px; color: var(--muted); max-width: 260px; text-align: right; line-height: 1.7; }
+
+/* Perk index list */
+.perk-list { padding: 0 max(3vw, 48px); }
+.perk-row { display: grid; grid-template-columns: clamp(80px, 9vw, 140px) 1fr auto; gap: clamp(16px, 3vw, 48px); align-items: start; padding: 34px 0; border-bottom: 1px solid var(--border); transition: background 0.25s; }
+.perk-row:hover { background: var(--bg2); }
+.perk-row .num { font-size: clamp(36px, 4.4vw, 64px); font-weight: 900; color: var(--accent); line-height: 1; letter-spacing: -0.03em; padding-left: 4px; }
+.perk-row h3 { font-size: clamp(17px, 1.8vw, 22px); font-weight: 700; color: var(--text); letter-spacing: 0.02em; line-height: 1.35; font-family: var(--serif); margin-bottom: 12px; }
+.perk-row .items { display: flex; flex-wrap: wrap; gap: 8px 0; font-size: 13px; color: var(--muted); line-height: 1.7; }
+.perk-row .items span { display: inline-flex; align-items: center; }
+.perk-row .items span + span::before { content: ''; display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin: 0 12px; flex-shrink: 0; }
+.perk-row .tag { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 5px 12px; font-weight: 600; white-space: nowrap; margin-top: 8px; }
+
+/* ── Value (dark band) ─────────────────────────────────────────────── */
+.value-section { background: var(--dark); padding: 100px 0 100px; margin-top: 32px; }
+.value-head { padding: 0 max(3vw, 48px); display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 64px; flex-wrap: wrap; }
+.value-head .label { font-size: 11px; letter-spacing: 0.28em; color: rgba(255,255,255,0.45); text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+.value-head .label::before { content: ''; display: block; width: 24px; height: 2px; background: var(--accent); }
+.value-head h2 { font-size: clamp(40px, 6.5vw, 92px); font-weight: 900; color: white; letter-spacing: -0.03em; line-height: 1; font-family: var(--sans); }
+.value-head h2 .accent { color: var(--accent); }
+.value-head h2 .plus { font-size: 0.55em; font-weight: 700; vertical-align: middle; margin-left: 4px; }
+.value-head .note { font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 0.06em; line-height: 1.8; text-align: right; }
+
+.value-grid { padding: 0 max(3vw, 48px); display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(32px, 5vw, 80px); }
+.value-table-header { display: flex; justify-content: space-between; padding: 10px 0; margin-bottom: 8px; border-bottom: 2px solid rgba(255,255,255,0.9); }
+.value-table-header span { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+.value-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.value-row .label { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.4; }
+.value-row .val { font-size: 13px; font-weight: 600; color: white; letter-spacing: 0.02em; text-align: right; }
+
+.price-card { background: var(--bg); padding: clamp(32px, 4vw, 48px); }
+.price-card .sub { font-size: 11px; letter-spacing: 0.22em; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; }
+.price-card .price { font-size: clamp(52px, 8vw, 80px); font-weight: 900; color: var(--accent); line-height: 1; letter-spacing: -0.03em; margin-bottom: 16px; }
+.price-card .orig { font-size: 13px; color: var(--muted); text-decoration: line-through; margin-bottom: 24px; }
+.price-stats { display: flex; gap: 24px; padding-top: 24px; border-top: 1px solid var(--border); }
+.price-stats .stat { text-align: center; flex: 1; }
+.price-stats .stat .n { font-size: 18px; font-weight: 800; color: var(--dark); line-height: 1; }
+.price-stats .stat .l { font-size: 10px; color: var(--muted); letter-spacing: 0.1em; margin-top: 6px; }
+
+.night-photo { position: relative; min-height: 220px; overflow: hidden; margin-top: 16px; }
+.night-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+.night-photo .grad { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.65), transparent); }
+.night-photo .label { position: absolute; bottom: 20px; left: 24px; font-size: 12px; color: white; letter-spacing: 0.1em; font-weight: 600; }
+
+/* ── CTA (centered) ────────────────────────────────────────────────── */
+.cta { padding: 0; }
+.cta-hero { position: relative; overflow: hidden; min-height: 640px; display: flex; align-items: center; justify-content: center; }
+.cta-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cta-hero > .grad { position: absolute; inset: 0; background: rgba(0,0,0,0.66); }
+.cta-inner { position: relative; z-index: 10; padding: clamp(64px, 9vw, 120px) max(4vw, 60px); max-width: 900px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.cta-brand { font-size: 11px; letter-spacing: 0.3em; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-bottom: 28px; overflow-wrap: break-word; }
+.cta-brand .serif { font-family: var(--serif); font-weight: 400; letter-spacing: 0.12em; text-transform: none; }
+.cta h2 { font-size: clamp(36px, 6vw, 76px); font-weight: 900; color: white; line-height: 1.12; letter-spacing: -0.02em; margin-bottom: 24px; font-family: var(--sans); }
+.cta h2 .accent { color: var(--accent); }
+.cta-desc { font-size: clamp(14px, 1.7vw, 17px); color: rgba(255,255,255,0.6); line-height: 1.9; margin-bottom: 52px; max-width: 580px; }
+
+/* Countdown */
+.countdown { display: flex; align-items: flex-start; justify-content: center; gap: 0; }
+.countdown .unit { display: flex; align-items: flex-start; }
+.countdown .sep { font-size: clamp(28px, 4vw, 52px); font-weight: 900; color: rgba(255,255,255,0.25); line-height: 1; margin: 0 8px; padding-top: 4px; }
+.countdown .num { font-size: clamp(52px, 8vw, 100px); font-weight: 900; color: white; line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; font-family: var(--sans); }
+.countdown .lbl { font-size: 10px; letter-spacing: 0.2em; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-top: 8px; }
+.cta-note { font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; margin-top: 24px; }
+
+.cta-price { display: flex; align-items: center; justify-content: center; gap: clamp(24px, 5vw, 56px); flex-wrap: wrap; margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.14); width: 100%; }
+.cta-price .money { text-align: left; }
+.cta-price .sub { font-size: 11px; letter-spacing: 0.2em; color: rgba(255,255,255,0.4); margin-bottom: 6px; text-transform: uppercase; }
+.cta-price .price { font-size: clamp(44px, 6vw, 68px); font-weight: 900; color: var(--accent); line-height: 1; letter-spacing: -0.02em; }
+.cta-price .orig { font-size: 13px; color: rgba(255,255,255,0.3); margin-top: 6px; }
+.cta-btn { display: flex; flex-direction: column; gap: 12px; }
+.cta-btn a { background: white; color: var(--dark); border: none; padding: 18px 56px; font-size: 14px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s, color 0.2s; }
+.cta-btn a:hover { background: var(--accent); color: white; }
+.cta-btn .hint { font-size: 11px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; text-align: center; }
+
+/* ── Footer ────────────────────────────────────────────────────────── */
+.footer { background: var(--dark); border-top: 1px solid rgba(255,255,255,0.12); padding: 48px max(3vw, 48px); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.footer .brand { font-size: 13px; font-weight: 800; color: white; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+.footer .copy { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.08em; }
+.footer .slogan { font-size: 12px; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; }
+.footer .info { text-align: right; font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.1em; line-height: 1.8; }
+.footer .info .serif { font-family: var(--serif); font-weight: 400; letter-spacing: 0.08em; }
+
+/* ── Mobile ────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .hero-para { left: max(3vw, 48px); bottom: 40px; }
+  .hero-collab { display: none; }
+  .hero-year { top: auto; bottom: 44px; transform: none; }
+  .featured-grid { grid-template-columns: 1fr; grid-template-rows: none; }
+  .featured-card.main { grid-row: auto; min-height: 300px; }
+  .statement { grid-template-columns: 1fr; gap: 28px; }
+  .value-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .hero nav { padding: 20px; }
+  .hero nav .menu { display: none; }
+  .hero nav .brand { font-size: 13px; }
+  .hero-scroll { display: none; }
+  .hero-center { top: 44%; }
+  .hl .l1, .hl .l2 { font-size: clamp(30px, 7vw, 46px); letter-spacing: 0.02em; white-space: nowrap; }
+  .hl .mini { font-size: 12px; margin-top: 24px; }
+  .hero-year { left: 20px; bottom: 28px; }
+  .hero-year .y { font-size: 24px; }
+  .hero-para { left: auto; right: 20px; bottom: 28px; max-width: 40vw; text-align: right; }
+  .hero-para .find { justify-content: flex-end; }
+  .pad { padding: 0 20px; }
+  .statement h2 { font-size: 8.4vw; }
+  .photo-strip { margin-bottom: 72px; }
+  .featured-grid { margin-bottom: 72px; }
+  .label-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .label-row p { text-align: left; max-width: 100%; }
+  .perk-list { padding: 0 20px; }
+  .perk-row { grid-template-columns: 1fr; gap: 10px; padding: 28px 0; }
+  .perk-row .num { font-size: 40px; padding-left: 0; }
+  .perk-row .tag { justify-self: start; margin-top: 0; }
+  .value-head { margin-bottom: 40px; }
+  .value-head .note { text-align: left; }
+  .value-grid { padding: 0 20px; }
+  .value-head { padding: 0 20px; }
+  .cta-inner { padding: 64px 20px; }
+  .cta-brand { letter-spacing: 0.12em; font-size: 10px; }
+  .cta-price { gap: 20px; flex-direction: column; }
+  .cta-price .money { text-align: center; }
+  .footer { padding: 40px 20px; flex-direction: column; align-items: flex-start; }
+  .footer .info { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="素材/hero.jpg" alt="莫干山山野" />
+    <div class="overlay"></div>
+  </div>
+
+  <div class="hero-top">
+    <nav>
+      <span class="brand">寻迹莫干山 · 民国季</span>
+      <div class="menu">
+        <a href="#featured">戏幕一览</a>
+        <a href="#perks">入局权益</a>
+        <a href="#value">价值清单</a>
+        <a href="https://my.feishu.cn/share/base/form/shrcnQWbLwo9Y9TtA36J1uW0lwh" target="_blank" rel="noopener noreferrer">领取角色</a>
+      </div>
+      <div class="burger"><span></span><span></span><span></span></div>
+    </nav>
+
+    <div class="hero-year">
+      <div class="y">2026</div>
+      <div class="d">S2期 · 7.25 — 7.27 · 3天2夜</div>
+    </div>
+
+    <div class="hero-scroll">(向下探索)</div>
+
+    <div class="hero-center">
+      <div class="hl">
+        <div class="l1">寻迹莫干山·记路家计划</div>
+        <div class="l2">梦回民国山野剧本杀</div>
+        <a class="mini" href="https://my.feishu.cn/share/base/form/shrcnQWbLwo9Y9TtA36J1uW0lwh" target="_blank" rel="noopener noreferrer">「 领取入局角色 」</a>
+      </div>
+    </div>
+
+    <div class="hero-para">
+      <div class="find">
+        寻找那个
+        <span style="display:inline-flex;flex-direction:column;align-items:flex-start;width:5em;flex-shrink:0">
+          <span class="typing-word" id="typingEl"></span>
+        </span>
+      </div>
+      <p>寻访黄先生，完成寻迹・体魄・技艺三重试炼。<br>48小时，走进半部民国史，解锁传承密令上卷。</p>
+    </div>
+
+    <div class="hero-collab">莫沃斯 × 山野梦想家</div>
+  </div>
+
+  <!-- ═══════════════ TICKER ═══════════════ -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
+
+  <!-- ═══════════════ STATEMENT ═══════════════ -->
+  <div class="hero-statement">
+    <div class="pad">
+      <div class="statement">
+        <h2>
+          <div class="row">
+            <span>我们不找观众</span>
+          </div>
+          <div class="row">
+            <span>我们在找<span class="hl">入局者</span></span>
+          </div>
+          <div class="en-group">
+            <span>We don't seek spectators</span>
+            <span>We seek <span class="hl">participants</span></span>
+          </div>
+        </h2>
+        <p>一座莫干山，半部民国史。这不只是一场游戏，而是一次可以住进去的民国史：实景、剧本、角色与追寻萤火虫山野跑，在山野间同时发生。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ BENEFITS ═══════════════ -->
+<section class="benefits">
+  <!-- Featured bento -->
+  <div class="pad" id="featured">
+    <div class="section-label">Featured Scenes · 1936 → 2026</div>
+    <div class="featured-grid">
+      <div class="featured-card main reveal">
+        <img src="素材/afiq-fatah-1cVmsgAkm9A-unsplash.jpg" alt="庾村寻迹" />
+        <div class="img-grad"></div>
+        <div class="idx">01</div>
+        <div class="img-text">
+          <h4>庾村寻迹・寻访黄先生</h4>
+          <p>实景 NPC 剧情交互，在庾村历史点位收集线索碎片，开启「寻找传承人」的第一幕。</p>
+        </div>
+      </div>
+      <div class="featured-card reveal">
+        <img src="素材/pexels-marclyc-li-2160558161-38188604.jpg" alt="追寻萤火虫山野跑" />
+        <div class="img-grad"></div>
+        <div class="idx">02</div>
+        <div class="img-text">
+          <h4>追寻萤火虫山野跑</h4>
+          <p>跟随专业教练进入莫干山夜色，在山径完成独立赛事主线，邂逅萤火与星空下的体魄试炼。</p>
+        </div>
+      </div>
+      <div class="featured-card reveal">
+        <img src="素材/pexels-jonathanborba-37901036.jpg" alt="民国换装晚宴" />
+        <div class="img-grad"></div>
+        <div class="idx">03</div>
+        <div class="img-text">
+          <h4>民国换装与跨时空晚宴</h4>
+          <p>换上长衫、旗袍或学生装，在 NPC 演绎的黄先生生平中共赴一席民国晚宴。</p>
+        </div>
+      </div>
+      <div class="featured-card reveal">
+        <img src="素材/moises-alex-WqI-PbYugn4-unsplash.jpg" alt="1901年复古网球赛" />
+        <div class="img-grad"></div>
+        <div class="idx">04</div>
+        <div class="img-text">
+          <h4>1901年复古网球赛・传承者杯</h4>
+          <p>身着复古运动装，学习民国网球礼仪，在百年球场分组挥拍，完成技艺终极试炼。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section label -->
+  <div class="pad" id="perks">
+    <div class="label-row">
+      <div>
+        <div class="section-label" style="margin-bottom:0">Popular Perks · 2026</div>
+      </div>
+      <h2>十大专属权益</h2>
+      <p>每一项都是为敢于入局的城市主理人与<br>内容创作者量身设计。</p>
+    </div>
+  </div>
+
+  <!-- Perk index list -->
+  <div class="perk-list" id="perkList"></div>
+</section>
+
+<!-- ═══════════════ VALUE (dark band) ═══════════════ -->
+<section class="value-section" id="value">
+  <div class="value-head">
+    <div>
+      <div class="label">权益价值一览</div>
+      <h2>综合价值 <span class="accent">¥19,000<span class="plus">+</span></span></h2>
+    </div>
+    <div class="note">十大权益逐项折算<br>二期以早鸟价开放 15 席</div>
+  </div>
+
+  <div class="value-grid">
+    <div>
+      <div class="value-table-header">
+        <span>权益项目</span>
+        <span>市场价值</span>
+      </div>
+      <div id="valueRows"></div>
+    </div>
+    <div>
+      <div class="price-card reveal">
+        <div class="sub">二期早鸟价</div>
+        <div class="price">¥6,980</div>
+        <div class="orig">原价 ¥12,800</div>
+        <div class="price-stats">
+          <div class="stat"><div class="n">15席</div><div class="l">二期名额</div></div>
+          <div class="stat"><div class="n">3天2夜</div><div class="l">活动时长</div></div>
+          <div class="stat"><div class="n">10项</div><div class="l">专属权益</div></div>
+        </div>
+      </div>
+      <div class="night-photo reveal">
+        <img src="public/sucai/race3.jpg" alt="星空夜话与路线收录之夜" />
+        <div class="grad"></div>
+        <div class="label">寻迹 · 星空夜话 · 路线收录之夜</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CTA ═══════════════ -->
+<section class="cta" id="cta">
+  <div class="cta-hero">
+    <img src="public/sucai/race4.jpg" alt="梦回民国跨时空晚宴" />
+    <div class="grad"></div>
+    <div class="cta-inner">
+      <div class="cta-brand">莫沃斯 × 山野梦想家</div>
+      <h2>15位入局者 · 一场萤火虫山野跑<br><span class="accent">一卷传承密令</span></h2>
+      <p class="cta-desc">寻访黄先生，完成寻迹・体魄・技艺三重试炼；实景剧本杀与追寻萤火虫山野跑，48小时并行入局。</p>
+      <div>
+        <div class="countdown" id="countdown"></div>
+        <p class="cta-note">距离开演还有，大幕将启。</p>
+      </div>
+      <div class="cta-price">
+        <div class="money">
+          <div class="sub">二期早鸟价</div>
+          <div class="price">¥6,980</div>
+          <div class="orig">原价 ¥12,800 · 仅限 15 席</div>
+        </div>
+        <div class="cta-btn">
+          <a href="https://my.feishu.cn/share/base/form/shrcnQWbLwo9Y9TtA36J1uW0lwh" target="_blank" rel="noopener noreferrer">立即入局</a>
+          <span class="hint">满席即止</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="footer">
+  <div>
+    <div class="brand">Moganshan Road Explorer Project · Republic-Era Chapter</div>
+    <div class="copy">© 2026 莫沃斯「记路家」S2期・梦回民国上集</div>
+  </div>
+  <div class="slogan">梦回民国 · 追寻萤火虫</div>
+  <div class="info">
+    莫沃斯 × 山野梦想家<br>
+    莫沃斯「记路家」S2期・梦回民国上集<br>
+    浙江 · 德清 · 莫干山
+  </div>
+</footer>
+
+<script>
+/* ── Typing animation ─────────────────────────────────────────────── */
+(function() {
+  const WORDS = ['传承人', '入局者', '寻迹人', '民国客'];
+  const el = document.getElementById('typingEl');
+  let wordIdx = 0, charIdx = 0, phase = 'typing';
+
+  function tick() {
+    const target = WORDS[wordIdx];
+    if (phase === 'typing') {
+      if (charIdx < target.length) {
+        charIdx++;
+        el.innerHTML = target.slice(0, charIdx) + '<span class="typing-cursor"></span>';
+        setTimeout(tick, 100);
+      } else {
+        el.innerHTML = target + '<span class="typing-cursor"></span>';
+        setTimeout(tick, 2000);
+        phase = 'pause';
+      }
+    } else if (phase === 'pause') {
+      phase = 'deleting';
+      setTimeout(tick, 500);
+    } else {
+      if (charIdx > 0) {
+        charIdx--;
+        el.innerHTML = target.slice(0, charIdx) + '<span class="typing-cursor"></span>';
+        setTimeout(tick, 55);
+      } else {
+        wordIdx = (wordIdx + 1) % WORDS.length;
+        phase = 'typing';
+        setTimeout(tick, 100);
+      }
+    }
+  }
+  el.innerHTML = '<span class="typing-cursor"></span>';
+  setTimeout(tick, 300);
+})();
+
+/* ── Ticker ───────────────────────────────────────────────────────── */
+(function() {
+  var unit = '寻迹莫干山 <i>◆</i> 梦回民国 <i>◆</i> 一座莫干山，半部民国史 <i>◆</i> 山野剧本杀 <i>◆</i> 追寻萤火虫山野跑 <i>◆</i> 2026.7.25 — 7.27 <i>◆</i> ';
+  var half = '<span>' + unit.repeat(4) + '</span>';
+  document.getElementById('tickerTrack').innerHTML = half + half;
+})();
+
+/* ── Scroll reveal ────────────────────────────────────────────────── */
+(function() {
+  const obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '-50px' });
+  document.querySelectorAll('.reveal, .reveal-left').forEach(function(el) { obs.observe(el); });
+})();
+
+/* ── Countdown (48h cycle) ───────────────────────────────────────── */
+(function() {
+  var TOTAL = 48 * 60 * 60, start = Date.now();
+  var el = document.getElementById('countdown');
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function render() {
+    var elapsed = Math.floor((Date.now() - start) / 1000);
+    var rem = TOTAL - (elapsed % TOTAL);
+    var h = Math.floor(rem / 3600), m = Math.floor((rem % 3600) / 60), s = rem % 60;
+    el.innerHTML =
+      '<div class="unit"><div><div class="num">' + pad(h) + '</div><div class="lbl">hours</div></div></div>' +
+      '<span class="sep">:</span>' +
+      '<div class="unit"><div><div class="num">' + pad(m) + '</div><div class="lbl">min</div></div></div>' +
+      '<span class="sep">:</span>' +
+      '<div class="unit"><div><div class="num">' + pad(s) + '</div><div class="lbl">sec</div></div></div>';
+  }
+  render();
+  setInterval(render, 1000);
+})();
+
+/* ── Dynamic content: perk index list ─────────────────────────────── */
+(function() {
+  var benefits = [
+    { num:'01', title:'梦回民国·入局者定制礼包', tag:'开演即得', items:['民国线索任务包 + 专属身份胸牌','长衫 / 旗袍 / 学生装换装与定妆造型','民国主理人遴选·专属线索权限','限定惊喜神秘礼物盲盒'] },
+    { num:'02', title:'48小时沉浸主线·寻访黄先生', tag:'官方剧目', items:['以「寻找传承人」剧情主线贯穿48小时','庾村历史点位实景寻迹·NPC剧本交互','完成寻迹·体魄·技艺三重试炼','解锁传承密令上卷·S3下集优先入局资格'] },
+    { num:'03', title:'非遗传承人·深度山野文脉探索', tag:'文化溯源', items:['跟随非遗传承人实地踏查山野','深度勘探百年人文与自然文化脉络','完成山野精神的文化传承与价值传递'] },
+    { num:'04', title:'人生首野·山野淬炼与官方路线收录', tag:'体魄试炼', items:['专业教练梯队全程护航，解锁人生第一场山野越野','三处试炼点任务集章 + 萤火虫自然认知打卡','星空夜话见证山野路线官方收录仪式','颁发「人生首野」完赛证书'] },
+    { num:'05', title:'专业运动恢复·科学淬炼体系', tag:'科学恢复', items:['教练带领静态拉伸与肌肉松解全流程','掌握正确越野姿势与呼吸方法','山野淬炼后的系统化身体修复方案'] },
+    { num:'06', title:'NEOCARE ELITE国际运动恢复设备体验', tag:'运动科学', items:['25-30筑起抗老防线','30-40开启深层肌肉支撑','体验国际运动员同款设备'] },
+    { num:'07', title:'1901年复古网球赛·传承者杯', tag:'技艺试炼', items:['复古运动装扮，重现民国网球礼仪','百年复古网球场分组友谊赛','角逐「传承者杯」，完成技艺终极试炼'] },
+    { num:'08', title:'全流程视觉影像全程服务', tag:'内容冷启动', items:['高阶山野运动视觉美学教学','专业摄影团队全程第三视角跟拍','共创6条专属短视频','享受官方专属流量投流扶持补贴'] },
+    { num:'09', title:'山野旅居礼遇·篝火跨界晚宴双重体验', tag:'身体闭环', items:['山野梦想家原创DIY路线投票仪式','篝火晚宴跨界圈层深度交流','尊享山野晚安助眠礼遇'] },
+    { num:'10', title:'莫干山文化传承者身份授予', tag:'永久身份', items:['莫干山户外运动协会官方运动博主认证','实体证书官方颁发仪式','莫干山山野文化传承者背书'] }
+  ];
+
+  var html = '';
+  benefits.forEach(function(b) {
+    html += '<div class="perk-row reveal">' +
+      '<div class="num">' + b.num + '</div>' +
+      '<div><h3>' + b.title + '</h3>' +
+      '<div class="items">' + b.items.map(function(i) { return '<span>' + i + '</span>'; }).join('') + '</div></div>' +
+      '<span class="tag">' + b.tag + '</span>' +
+    '</div>';
+  });
+  document.getElementById('perkList').innerHTML = html;
+
+  // Re-observe newly added rows
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '-50px' });
+  document.querySelectorAll('.perk-row.reveal').forEach(function(el) { obs.observe(el); });
+})();
+
+/* ── Dynamic content: value table rows ────────────────────────────── */
+(function() {
+  var rows = [
+    { label:'山野轻奢民宿', value:'¥1,000' },
+    { label:'记路家专属大礼包', value:'¥1,500' },
+    { label:'专业运动恢复理疗', value:'¥3,000/次' },
+    { label:'民国服装、道具租赁与定妆造型', value:'¥1,500' },
+    { label:'全程设备支持及短视频拍摄', value:'¥5,800' },
+    { label:'运动恢复课程', value:'¥1,980' },
+    { label:'1901年复古网球赛与百年球场体验', value:'¥980' },
+    { label:'官方投流资金补贴', value:'平台承担' },
+    { label:'莫干山文化传承者证书', value:'不对外单独发售' },
+    { label:'官方路线库收录资格', value:'荣誉，无市价' },
+    { label:'认证课程长期专属折扣', value:'持续受益' }
+  ];
+
+  var html = '';
+  rows.forEach(function(r, i) {
+    html += '<div class="value-row reveal-left" style="transition-delay:' + (i * 0.035) + 's">' +
+      '<span class="label">' + r.label + '</span>' +
+      '<span class="val">' + r.value + '</span>' +
+    '</div>';
+  });
+  document.getElementById('valueRows').innerHTML = html;
+
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '-80px' });
+  document.querySelectorAll('.value-row.reveal-left').forEach(function(el) { obs.observe(el); });
+})();
+</script>
+</body>
+</html>
